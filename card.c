@@ -1,6 +1,7 @@
 #include "card.h"
 
-char* get_suit(SUIT suit) {
+char* get_suit(SUIT suit)
+{
     char* clubs = "♣";
     char* diamonds = "◆";
     char* hearts = "♥";
@@ -115,13 +116,13 @@ CARD get_card(CARD* decks, int idx) {
         CARD result = decks[idx];
 
         // if rand or suit is -1. That card is used.
-        decks[idx].rank = -1;
-        decks[idx].suit = -1;
+        decks[idx].rank = USED;
+        decks[idx].suit = USED;
 
         return result;
     }
     else {
-        CARD noCard = {-2,-2}; // means deck is empty
+        CARD noCard = {EMPTY,EMPTY}; // means deck is empty
         return noCard;
     }
 }
@@ -155,6 +156,7 @@ int decideWinner(CARD* p, CARD* c)
         if(c[0].rank+i != c[i].rank) ifStraightC = 0;
     }
 
+    // 플레이어 족보 판정
     if (ifPlushP && ifStraightP)
         player = STRAIGHTFLUSH;
     else if ((p[0].rank == p[1].rank == p[2].rank == p[3].rank)
@@ -179,6 +181,7 @@ int decideWinner(CARD* p, CARD* c)
         player = NOT;
 
 
+    // 컴퓨터 족보 판정
     if (ifPlushC && ifStraightC)
         computer = STRAIGHTFLUSH;
     else if ((c[0].rank == c[1].rank == c[2].rank == c[3].rank)
@@ -202,34 +205,33 @@ int decideWinner(CARD* p, CARD* c)
     else
         computer = NOT;
 
-
+    // 승무패를 가림
     if (player > computer) {
         printf("Player Win! %d %d\n",player, computer);
-        return 1;
+        return WINP1;
     }
     else if (player == computer) {
         printf("Draw! %d %d\n",player, computer);
-        return 0;
+        return DRAW;
     }
     else {
         printf("Computer Win %d %d\n",player, computer);
-        return -1;
+        return WINP2;
     }
 }
 
-void card_quicksort(CARD* cards, int size, int criteria)
-{
+void card_quicksort(CARD* cards, int size, int criteria) { // 카드들을 퀵소트
     int i, j;
     CARD p, t;
 
     if (size < 2)
-        return;
+        return; // 1개 있으면 정렬할 필요가 없음
 
-    p = cards[size/ 2];
+    p = cards[size/ 2]; // 카드를 반으로 나눔
 
     for (i = 0, j = size - 1;; i++, j--) {
-
-        if (criteria == SUITS) {
+        // 카드들을 반으로 쪼갬
+        if (criteria == SUITS) { // 기준이 무늬
             while (cards[i].suit < p.suit) i++;
             while (p.suit < cards[j].suit) j--;
         }
@@ -238,8 +240,7 @@ void card_quicksort(CARD* cards, int size, int criteria)
             while (p.rank < cards[j].rank) j--;
         }
 
-        if (i >= j)
-            break;
+        if (i >= j) break;
 
         t = cards[i];
 

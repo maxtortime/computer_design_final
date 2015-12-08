@@ -7,9 +7,9 @@
 
 #define DECK_SIZE 52
 
-enum ERROR {EMPTY = - 2, USED = -1};
-enum RESULT {WINP1 = 1, WINP2 = 2, DRAW = 0};
-enum CRITERIA {RANKS, SUITS};
+enum ERROR {EMPTY = -2, USED = -1}; // 카드가 쓰였는지 여부의 enum 상수
+enum RESULT {WINP1 = 1, WINP2 = 2, DRAW = 0}; // 승패 결정 상수
+enum CRITERIA {RANKS, SUITS}; // 정렬 조건 설정
 enum JOKBO {NOT, ONEPAIR, TWOPAIR, TRIPLE, STRAIGHT, FLUSH, FULLHOUSE, FOURCARD, STRAIGHTFLUSH};
 
 typedef enum { CLUBS, DIAMONDS, HEARTS, SPADES} SUIT;
@@ -37,8 +37,7 @@ void print_deck(CARD cards[]);  // 카드 덱 출력
 void swap_card(CARD*,CARD*); // 셔플할 때 카드 위치 변경
 CARD get_card(CARD* deck, int idx); // 카드를 한 장씩 빼줌
 
-void card_quicksort(CARD* cards, int size, int criteria);
-void sort_by_rank(CARD* cards1, CARD* cards2);
-int decideWinner(CARD* p, CARD* c);
+void card_quicksort(CARD* cards, int size, int criteria); // 카드를 퀵소트 하는 함수
+int decideWinner(CARD* p, CARD* c); // 승패를 결정하는 함수
 
 #endif // CARD_H

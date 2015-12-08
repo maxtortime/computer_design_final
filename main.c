@@ -46,41 +46,38 @@ int main()
                 curIdx++;
             }
 
-            whoWins = decideWinner(player.userCards,computer.userCards);
+            if(curIdx >=25) { // 어느 정도 카드를 사용하면 카드를 다시 섞음
+                cards= create_deck();
+                printf("Creating deck is success...\n\n");
+                shuffle_card(cards);
+                printf("Shuffling cards is success...\n\n");
 
-            // 아까 사용한 카드를 다시 덱에 넣음
-            for (i = 0 ; i < 5 ; i++) {
-                cards[i].rank = player.userCards[i].rank;
-                cards[i].suit = player.userCards[i].suit;
-            }
-
-            for (i = 5 ; i < 10 ; i++) {
-                cards[i].rank = computer.userCards[i].rank;
-                cards[i].suit = computer.userCards[i].suit;
+                curIdx = 0;
+                break;
             }
 
             // 승패 판정
             whoWins = decideWinner(player.userCards,computer.userCards);
-            if(whoWins == 1) {
+            if(whoWins == WINP1) {
                 player.numOfWins++;
                 computer.numOfLoss++;
             }
-            else if(whoWins == 0) {
+            else if(whoWins == DRAW) {
                 player.numOfDraw++;
                 computer.numOfDraw++;
             }
-            else if(whoWins == -1) {
+            else if(whoWins == WINP2) {
                 player.numOfLoss++;
                 computer.numOfWins++;
             }
 
             break;
-        case SHUFFLE:
+        case SHUFFLE: // 카드를 다시 섞음
             curIdx = 0;
             cards = create_deck();
             shuffle_card(cards);
             break;
-        case QUIT:
+        case QUIT: // 게임 종료시 결과 출력
             printf("Game quits..\n");
             printf("Player Wins: %d, Player Draws: %d, Player Loss: %d\n",player.numOfWins,player.numOfDraw,player.numOfLoss);
             printf("Computer Wins: %d, Computer Draws: %d, Computer Loss: %d\n",computer.numOfWins,computer.numOfDraw,computer.numOfLoss);
