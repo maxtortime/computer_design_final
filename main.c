@@ -8,6 +8,7 @@ int main()
     int idx;
     int curIdx = 0; // ÇöÀç Ä«µå À§Ä¡
     int whoWins = 0;
+    int i;
 
     // PLAYER ÃÊ±âÈ­
     PLAYER player, computer;
@@ -57,6 +58,18 @@ int main()
             }
 
             whoWins = decideWinner(player.userCards,computer.userCards);
+            // ¿¿¿ ¿¿ ¿¿ ¿¿¿
+            for (i = 0 ; i < DECK_SIZE ; i++) {
+                cards[i] = cards[i+1];
+
+                if (i >= DECK_SIZE-10) {
+
+                    printf("%d ",i%5);
+                    cards[i] = computer.userCards[i % 5]; 
+                    cards[i] = player.userCards[i % 5];
+                }
+
+            }
 
             if(whoWins == 1) {
                 player.numOfWins++;
