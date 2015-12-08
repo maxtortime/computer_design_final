@@ -6,6 +6,7 @@ int main()
 {
     int choice = 1; // 플레이어의 선택
     int idx;
+    int i;
     int curIdx = 0; // 현재 카드 위치
     int whoWins = 0;
 
@@ -29,35 +30,37 @@ int main()
     printf("Shuffling cards is success...\n\n");
 
     while(1) {
-        printf("What want to do?\n 1) Get five cards 2) Quit ");
+        printf("What want to do?\n 1) Keep playing 2) Shuffle deck 3) Quit ");
         scanf("%d",&choice);
         fflush(stdin);
 
         switch (choice) {
-        case GET_FIVE_CARDS:
+        case PLAYING:
             printf("\nNow Playing...\n\n");
 
-            if(curIdx*2+1 < DECK_SIZE - 3 ) {
-                // 카드를 번갈아가면서 한장씩 분배
-                for (idx = 0 ; idx < NUM_CARDS ;  idx++) {
-                    player.userCards[idx] =  get_card(cards,curIdx*2);
-                    computer.userCards[idx] =  get_card(cards,curIdx*2+1);
-                    printf("Your card %d is ",idx); info(player.userCards[idx]);
-                    curIdx++;
-                }
-            }
-
-            else { // 더 이상 카드를 나눠줄 수 없음
-                printf("Card deck is empty!...\n");
-                curIdx = 0;
-                cards = create_deck();
-                printf("Card deck is reseted. \n\n");
-                shuffle_card(cards);
-                printf("Shuffling cards is success...\n\n");
+            // 카드를 번갈아가면서 한장씩 분배
+            for (idx = 0 ; idx < NUM_CARDS ;  idx++) {
+                player.userCards[idx] =  get_card(cards,curIdx*2);
+                computer.userCards[idx] =  get_card(cards,curIdx*2+1);
+                printf("Your card %d is ",idx); info(player.userCards[idx]);
+                curIdx++;
             }
 
             whoWins = decideWinner(player.userCards,computer.userCards);
 
+            // 아까 사용한 카드를 다시 덱에 넣음
+            for (i = 0 ; i < 5 ; i++) {
+                cards[i].rank = player.userCards[i].rank;
+                cards[i].suit = player.userCards[i].suit;
+            }
+
+            for (i = 5 ; i < 10 ; i++) {
+                cards[i].rank = computer.userCards[i].rank;
+                cards[i].suit = computer.userCards[i].suit;
+            }
+
+            // 승패 판정
+            whoWins = decideWinner(player.userCards,computer.userCards);
             if(whoWins == 1) {
                 player.numOfWins++;
                 computer.numOfLoss++;
@@ -71,6 +74,11 @@ int main()
                 computer.numOfWins++;
             }
 
+            break;
+        case SHUFFLE:
+            curIdx = 0;
+            cards = create_deck();
+            shuffle_card(cards);
             break;
         case QUIT:
             printf("Game quits..\n");
