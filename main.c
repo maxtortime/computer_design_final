@@ -5,15 +5,13 @@
 int main()
 {
     int choice = 1; // 플레이어의 선택
-    int idx;
-    int i;
-    int curIdx = 0; // 현재 카드 위치
-    int whoWins = 0;
+    int curIdx = 0, idx; // 현재 카드 위치
+    int whoWins = 0; // 누가 이겼는지
 
     // PLAYER 초기화
     PLAYER player, computer;
-    player.numOfWins = 0; player.numOfLoss = 0; player.numOfDraw = 0;
-    computer.numOfWins = 0; computer.numOfLoss = 0; computer.numOfDraw = 0;
+    player.numOfWins = 0; player.numOfLoss = 0; player.numOfDraw = 0; // struct 초기화
+    computer.numOfWins = 0; computer.numOfLoss = 0; computer.numOfDraw = 0; // struct 초기화
 
     printf("Welcome to simple poker game...\n\n");
     CARD* cards = create_deck(); // 카드 덱 선언
@@ -75,7 +73,9 @@ int main()
         case SHUFFLE: // 카드를 다시 섞음
             curIdx = 0;
             cards = create_deck();
+            printf("Creating deck is success...\n\n");
             shuffle_card(cards);
+            printf("Shuffling cards is success...\n\n");
             break;
         case QUIT: // 게임 종료시 결과 출력
             printf("Game quits..\n");

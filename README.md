@@ -24,4 +24,5 @@ tkim@tkim-laptop:~/computer_design_final$ ./main
 프로젝트 폴더로 찾아가면 Debug\ 디렉토리에 실행 파일이 존재함.
 ```
 
-#### 프로그램 동작
+#### 결과 화면
+
