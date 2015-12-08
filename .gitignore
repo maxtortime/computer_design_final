@@ -3,3 +3,5 @@
 *.layout
 obj/
 bin/
+*.o
+main
